@@ -14,8 +14,16 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   if (showSplash) {
-    return <SplashScreen onFinish={() => setShowSplash(false)} />;
+    return <SplashScreen />;
   }
 
   return (
@@ -24,9 +32,9 @@ export default function App() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color, size }) => {
             let iconName: any;
+
             if (route.name === "Home") iconName = "home-outline";
-            else if (route.name === "Calculator")
-              iconName = "calculator-outline";
+            else if (route.name === "Calculator") iconName = "calculator-outline";
             else if (route.name === "Training") iconName = "book-outline";
 
             return <Ionicons name={iconName} size={size} color={color} />;
