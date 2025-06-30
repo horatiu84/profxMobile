@@ -8,6 +8,8 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import CalculatorScreen from "./screens/CalculatorScreen";
 import TrainingScreen from "./screens/TrainingScreen";
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 
 const Tab = createBottomTabNavigator();
 
