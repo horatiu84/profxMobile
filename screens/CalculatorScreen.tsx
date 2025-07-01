@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Image } from "react-native";
 import {
+  Image,
   View,
   Text,
   TextInput,
@@ -11,12 +11,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
-const HomeScreen = () => {
+const CalculatorScreen = () => {
   const [capital, setCapital] = useState("");
   const [risk, setRisk] = useState("");
   const [stopLoss, setStopLoss] = useState("");
   const [lotSize, setLotSize] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState(false);
 
   const calculateLotSize = () => {
     const cap = parseFloat(capital);
@@ -26,9 +26,19 @@ const HomeScreen = () => {
       const riskAmount = (cap * riskPercent) / 100;
       const calculatedLot = riskAmount / (sl * 10);
       setLotSize(Number(calculatedLot.toFixed(2)));
+      setShowResult(true);
     } else {
       setLotSize(null);
+      setShowResult(false);
     }
+  };
+
+  const resetCalculator = () => {
+    setCapital("");
+    setRisk("");
+    setStopLoss("");
+    setLotSize(null);
+    setShowResult(false);
   };
 
   return (
@@ -89,15 +99,36 @@ const HomeScreen = () => {
           <Text style={styles.buttonText}>Calculează Lotul</Text>
         </TouchableOpacity>
 
-        {lotSize !== null && (
-          <Text style={styles.result}>Lot Size: {lotSize}</Text>
-        )}
+        <TouchableOpacity style={styles.resetButton} onPress={resetCalculator}>
+          <Text style={styles.resetButtonText}>Resetează</Text>
+        </TouchableOpacity>
+
+        {lotSize !== null && showResult && (() => {
+          const cap = parseFloat(capital);
+          const sl = parseFloat(stopLoss);
+          const pierdere = lotSize * sl * 10;
+          const procentReal = (pierdere / cap) * 100;
+          const procentInput = parseFloat(risk);
+          const eDepasit = procentReal > procentInput;
+
+          return (
+            <View style={{ marginTop: 32 }}>
+              <Text style={styles.result}>Lot Size: {lotSize}</Text>
+              <Text style={[styles.loss, eDepasit && styles.lossAlert]}>
+                Pierdere estimată: ${pierdere.toFixed(2)} ({procentReal.toFixed(2)}%)
+              </Text>
+              {eDepasit && (
+                <Text style={styles.warning}>⚠️ Atenție: ai depășit riscul dorit!</Text>
+              )}
+            </View>
+          );
+        })()}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default CalculatorScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -141,11 +172,38 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
   },
+  resetButton: {
+    backgroundColor: "#444",
+    padding: 12,
+    borderRadius: 10,
+    marginTop: 12,
+  },
+  resetButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 14,
+  },
   result: {
-    marginTop: 32,
     fontSize: 20,
     fontWeight: "600",
     color: "#00ff99",
     textAlign: "center",
+    marginBottom: 8,
+  },
+  loss: {
+    fontSize: 16,
+    color: "#f1f1f1",
+    textAlign: "center",
+  },
+  lossAlert: {
+    color: "#ff4d4d",
+    fontWeight: "bold",
+  },
+  warning: {
+    color: "#ff4d4d",
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 8,
   },
 });

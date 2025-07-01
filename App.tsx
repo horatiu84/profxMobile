@@ -8,7 +8,8 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import CalculatorScreen from "./screens/CalculatorScreen";
 import TrainingScreen from "./screens/TrainingScreen";
-import { enableScreens } from 'react-native-screens';
+import HelpScreen from "./screens/HelpScreen";
+import { enableScreens } from "react-native-screens";
 enableScreens();
 
 const Tab = createBottomTabNavigator();
@@ -36,8 +37,10 @@ export default function App() {
             let iconName: any;
 
             if (route.name === "Home") iconName = "home-outline";
-            else if (route.name === "Calculator") iconName = "calculator-outline";
+            else if (route.name === "Calculator")
+              iconName = "calculator-outline";
             else if (route.name === "Training") iconName = "book-outline";
+            else if (route.name === "Help") iconName = "help-circle-outline";
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
@@ -50,6 +53,7 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Calculator" component={CalculatorScreen} />
         <Tab.Screen name="Training" component={TrainingScreen} />
+        <Tab.Screen name="Help" component={HelpScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
