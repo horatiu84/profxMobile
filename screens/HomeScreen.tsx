@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Linking } from "react-native";
 
 const tips = [
   "📈 Pro Tip: Riscul mic și disciplina aduc profituri mari.",
@@ -27,9 +27,9 @@ const HomeScreen = () => {
         style={styles.logo}
         resizeMode="contain"
       />
-      <Text style={styles.title}>Bine ai venit în ProFX App! 👋</Text>
+      <Text style={styles.title}>Bine ai venit în ProFX App! </Text>
       <Text style={styles.subtitle}>
-        Navighează jos pentru a folosi calculatorul, a învăța sau a cere ajutor.
+        Unelte smart pentru decizii inteligente în trading.
       </Text>
 
       {randomTip !== "" && (
@@ -37,6 +37,20 @@ const HomeScreen = () => {
           <Text style={styles.tipText}>{randomTip}</Text>
         </View>
       )}
+
+      <View style={styles.linkBox}>
+        <Text style={styles.linkText}>
+           Pentru lecții, materiale și resurse complete, vizitează aplicația noastră web :
+        </Text>
+        <Text
+          style={styles.linkUrl}
+          onPress={() =>
+            Linking.openURL("https://profx-calculator.netlify.app/")
+          }
+        >
+          👉 Accesează versiunea web ProFX aici
+        </Text>
+      </View>
     </View>
   );
 };
@@ -80,5 +94,27 @@ const styles = StyleSheet.create({
     color: "#7dd3fc",
     textAlign: "center",
     fontStyle: "italic",
+  },
+  linkBox: {
+    marginTop: 40,
+    paddingHorizontal: 20,
+    backgroundColor: "#111",
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#333",
+  },
+  linkText: {
+    fontSize: 14,
+    color: "#ccc",
+    textAlign: "center",
+    marginBottom: 6,
+  },
+  linkUrl: {
+    fontSize: 15,
+    color: "#60a5fa",
+    textAlign: "center",
+    textDecorationLine: "underline",
+    fontWeight: "bold",
   },
 });

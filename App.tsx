@@ -9,6 +9,8 @@ import HomeScreen from "./screens/HomeScreen";
 import CalculatorScreen from "./screens/CalculatorScreen";
 import TrainingScreen from "./screens/TrainingScreen";
 import HelpScreen from "./screens/HelpScreen";
+import AgendaScreen from "./screens/AgendaScreen"; 
+
 import { enableScreens } from "react-native-screens";
 enableScreens();
 
@@ -41,6 +43,7 @@ export default function App() {
               iconName = "calculator-outline";
             else if (route.name === "Training") iconName = "book-outline";
             else if (route.name === "Help") iconName = "help-circle-outline";
+            else if (route.name === "Agenda") iconName = "calendar-outline"; 
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
@@ -53,6 +56,7 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Calculator" component={CalculatorScreen} />
         <Tab.Screen name="Training" component={TrainingScreen} />
+        <Tab.Screen name="Agenda" component={AgendaScreen} /> 
         <Tab.Screen name="Help" component={HelpScreen} />
       </Tab.Navigator>
     </NavigationContainer>
